@@ -1,2 +1,3 @@
-# util
-Utility libraries
+# Mongo effect
+
+Mongo and cats effect compat library.
