@@ -37,7 +37,6 @@ lazy val webui = project
     scalaJSUseMainModuleInitializer := true,
     libraryDependencies ++= Seq(
       Dependencies.ScalaJsReact.core.js.value,
-      Dependencies.ScalaJsReact.extra.js.value,
-      Dependencies.ScalaCss.core.js.value
+      Dependencies.ScalaJsReact.extra.js.value
     )
   )
