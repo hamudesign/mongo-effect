@@ -10,7 +10,11 @@ import org.scalamock.scalatest.AsyncMockFactory
 import org.scalatest.Inside
 import org.scalatest.matchers.must.Matchers
 
-class ObservableSpec extends AsyncIOSpec with Matchers with AsyncMockFactory with Inside {
+class ObservableSpec
+    extends AsyncIOSpec
+    with Matchers
+    with AsyncMockFactory
+    with Inside {
   "MongoUtil" - {
     "should convert an empty mongo observable into a unicast publisher" in {
       val publisher = TestObservable[Int](Nil).toUnicastPublisher
@@ -23,7 +27,7 @@ class ObservableSpec extends AsyncIOSpec with Matchers with AsyncMockFactory wit
       IO(publisher mustBe a[Publisher[_]])
     }
     "should convert a non-empty mongo observable into a unicast publisher" in {
-      val publisher = TestObservable(List(1,2,3,4)).toUnicastPublisher
+      val publisher = TestObservable(List(1, 2, 3, 4)).toUnicastPublisher
       val subscriber = mock[Subscriber[Int]]
       val subscriptionRef: AtomicReference[Option[Subscription]] =
         new AtomicReference(None)
@@ -41,7 +45,7 @@ class ObservableSpec extends AsyncIOSpec with Matchers with AsyncMockFactory wit
       IO(publisher mustBe a[Publisher[_]])
     }
     "should convert an errorful mongo observable into a unicast publisher" in {
-      val publisher = TestObservable(List('a','b','c'), 2).toUnicastPublisher
+      val publisher = TestObservable(List('a', 'b', 'c'), 2).toUnicastPublisher
       val subscriber = mock[Subscriber[Char]]
       val subscriptionRef: AtomicReference[Option[Subscription]] =
         new AtomicReference(None)
@@ -68,7 +72,11 @@ class ObservableSpec extends AsyncIOSpec with Matchers with AsyncMockFactory wit
     }
     "should convert an errorful mongo observable into a fs2 stream" in {
       for {
-        result <- TestObservable(List("foo", "bar"), 1).toStream[IO].compile.toList.attempt
+        result <- TestObservable(List("foo", "bar"), 1)
+          .toStream[IO]
+          .compile
+          .toList
+          .attempt
       } yield inside(result) {
         case Left(e) => e mustBe a[MongoException]
       }

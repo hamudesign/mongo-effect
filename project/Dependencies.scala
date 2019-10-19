@@ -35,8 +35,4 @@ object Dependencies {
     val core = Module("com.github.japgolly.scalajs-react", "core", version)
     val extra = Module("com.github.japgolly.scalajs-react", "extra", version)
   }
-  object ScalaCss {
-    private val version = "0.5.3"
-    val core = Module("com.github.japgolly.scalacss", "core", version)
-  }
 }

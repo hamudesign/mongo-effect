@@ -1,6 +1,10 @@
 package design.hamu.mongoeffect
 
-import java.util.concurrent.atomic.{AtomicBoolean, AtomicInteger, AtomicReference}
+import java.util.concurrent.atomic.{
+  AtomicBoolean,
+  AtomicInteger,
+  AtomicReference
+}
 
 import org.mongodb.scala.{MongoException, Observable, Observer, Subscription}
 
@@ -12,7 +16,7 @@ class TestObservable[T](seq: Seq[T], errorIndex: Int) extends Observable[T] {
     val hasFailedRef = new AtomicBoolean(false)
     observer.onSubscribe(new Subscription {
       def request(n: Long): Unit = {
-        if(isSubscribedRef.get) {
+        if (isSubscribedRef.get) {
           for (_ <- (1 to n.toInt)) {
             failCountDownRef.getAndUpdate {
               case 0 =>
@@ -28,7 +32,7 @@ class TestObservable[T](seq: Seq[T], errorIndex: Int) extends Observable[T] {
                 i - 1
             }
           }
-          if(sourceRef.get.isEmpty && !hasFailedRef.get) observer.onComplete
+          if (sourceRef.get.isEmpty && !hasFailedRef.get) observer.onComplete
         }
       }
       def unsubscribe(): Unit = isSubscribedRef.set(false)
@@ -38,6 +42,7 @@ class TestObservable[T](seq: Seq[T], errorIndex: Int) extends Observable[T] {
 }
 
 object TestObservable {
-  def apply[T](seq: Seq[T], errorIndex: Int): Observable[T] = new TestObservable(seq, errorIndex)
+  def apply[T](seq: Seq[T], errorIndex: Int): Observable[T] =
+    new TestObservable(seq, errorIndex)
   def apply[T](seq: Seq[T]): Observable[T] = new TestObservable(seq, -1)
 }

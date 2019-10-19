@@ -5,7 +5,11 @@ import cats.implicits._
 import cats.effect.ConcurrentEffect
 import org.mongodb.scala.{Observable, Observer, Subscription}
 import fs2.interop.reactivestreams._
-import org.reactivestreams.{Publisher, Subscriber, Subscription => FS2Subscription}
+import org.reactivestreams.{
+  Publisher,
+  Subscriber,
+  Subscription => FS2Subscription
+}
 
 package object mongoeffect {
 
@@ -28,6 +32,7 @@ package object mongoeffect {
     * Mongo observable decorator for fs2 conversion
     */
   implicit class RichObservable[T](observable: Observable[T]) {
+
     /**
       * Head option operation wrapped in effect type
       * @tparam F Effect type
