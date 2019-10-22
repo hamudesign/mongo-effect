@@ -35,7 +35,10 @@ object Navbar {
                 <.a(^.className := "nav-link", ^.href := "#guide")("Guide")
               ),
               <.li(^.className := "nav-item")(
-                <.a(^.className := "nav-link")("API")
+                <.a(
+                  ^.className := "nav-link",
+                  ^.href := "https://javadoc.io/doc/design.hamu/mongo-effect_2.12"
+                )("API")
               )
             ),
             <.ul(^.className := "navbar-nav ml-auto")(
