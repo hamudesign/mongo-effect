@@ -28,10 +28,15 @@ case object Home extends AppPage {
           )
         ),
         <.div(^.className := "container")(
-          <.div(
+          <.div(^.className := "mb-5")(
             <.h4(^.className := "display-4")("Mongo Scala Driver & FS2"),
-            <.p(^.className := "text-muted")(
-              "Mongo-effect is a fully functional library which integrates both the mongo scala driver and fs2."
+            <.div(
+              <.a(^.className := "mr-3", ^.href := "https://index.scala-lang.org/hamuhouse/mongo-effect/mongo-effect")(
+                <.img(^.src := "https://img.shields.io/maven-central/v/design.hamu/mongo-effect_2.12"),
+              ),
+              <.a(^.href := "https://javadoc.io/doc/design.hamu/mongo-effect_2.12")(
+                <.img(^.src := "https://javadoc.io/badge2/design.hamu/mongo-effect_2.12/javadoc.io.svg"),
+              )
             )
           ),
           <.div(
