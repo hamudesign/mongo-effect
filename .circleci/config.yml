@@ -1,0 +1,59 @@
+# Scala CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/sample-config/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.sbt" }}
+            - v1-dependencies-
+      - run:
+          name: Compile
+          command: cat /dev/null | sbt test:compile
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies--{{ checksum "build.sbt" }}
+      - run:
+          name: Test
+          command: cat /dev/null | sbt test:test
+  publish:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.sbt" }}
+            - v1-dependencies-
+      - run:
+          name: GPG Import
+          command: export GPG_TTY=$(tty); echo -e "$GPG_KEY" | gpg --import --batch --no-tty --yes
+      - run:
+          name: Publish to Sonatype
+          command: export GPG_TTY=$(tty); cat /dev/null | sbt publish
+
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - build
+      - publish:
+          requires:
+            - build
+          context: sonatype
