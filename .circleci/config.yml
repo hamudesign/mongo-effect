@@ -43,10 +43,10 @@ jobs:
             - v1-dependencies-
       - run:
           name: GPG Import
-          command: echo -e "$GPG_KEY" | gpg --import --batch --no-tty --yes
+          command: export GPG_TTY=$(tty); echo -e "$GPG_KEY" | gpg --import --batch --no-tty --yes
       - run:
           name: Publish to Sonatype
-          command: cat /dev/null | sbt publishSigned
+          command: export GPG_TTY=$(tty); cat /dev/null | sbt publish
 
 workflows:
   version: 2
