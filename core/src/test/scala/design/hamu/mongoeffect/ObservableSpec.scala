@@ -22,7 +22,7 @@ class ObservableSpec
       (subscriber.onSubscribe _) expects (*) onCall (
           (s: Subscription) => s.request(1)
       )
-      (subscriber.onComplete _) expects () returning ()
+      (subscriber.onComplete _).expects()
       publisher.subscribe(subscriber)
       IO(publisher mustBe a[Publisher[_]])
     }
@@ -38,7 +38,7 @@ class ObservableSpec
       (subscriber.onNext _) expects (2) returning ()
       (subscriber.onNext _) expects (3) returning ()
       (subscriber.onNext _) expects (4) returning ()
-      (subscriber.onComplete _) expects () returning ()
+      (subscriber.onComplete _).expects()
       publisher.subscribe(subscriber)
       subscriptionRef.get.get.request(2)
       subscriptionRef.get.get.request(3)
@@ -59,6 +59,26 @@ class ObservableSpec
       subscriptionRef.get.get.request(1)
       subscriptionRef.get.get.request(2)
       IO(publisher mustBe a[Publisher[_]])
+    }
+    "should produce None when headOptF is called on an empty mongo observable" in {
+      for {
+        res <- TestObservable[Int](Nil).headOptF[IO]
+      } yield res must equal(None)
+    }
+    "should produce Some when headOptF is called on a non-empty mongo observable" in {
+      for {
+        res <- TestObservable(Seq("1")).headOptF[IO]
+      } yield res must equal(Some("1"))
+    }
+    "should fail when headF is called on an empty mongo observable" in {
+      for {
+        res <- TestObservable[String](Nil).headF[IO].attempt
+      } yield res mustBe a[Left[_, _]]
+    }
+    "should succeed when headF is called on a non-empty mongo observable" in {
+      for {
+        res <- TestObservable(Seq('a')).headF[IO].attempt
+      } yield res must equal(Right('a'))
     }
     "should convert an empty mongo observable into a fs2 stream" in {
       for {

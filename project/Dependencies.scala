@@ -7,18 +7,22 @@ case class Module(org: String, name: String, version: String) {
 }
 
 object Dependencies {
+  object Scala {
+    val v2 = "2.12.10"
+    val v3 = "2.13.1"
+  }
   object Cats {
-    private val version = "1.3.1"
+    private val version = "2.0.0"
     val core = Module("org.typelevel", "cats-core", version)
     val effect =  Module("org.typelevel", "cats-effect", version)
     val testEffect = Module("com.codecommit", "cats-effect-testing-scalatest", "0.3.0")
   }
   object Mongo {
-    private val version = "2.6.0"
+    private val version = "2.7.0"
     val driver = Module("org.mongodb.scala", "mongo-scala-driver", version)
   }
   object FS2 {
-    private val version = "1.0.4"
+    private val version = "2.0.1"
     val core = Module("co.fs2", "fs2-core", version)
     val reactiveStreams = Module("co.fs2", "fs2-reactive-streams", version)
   }

@@ -1,10 +1,16 @@
 name := "mongo-effect"
-scalaVersion := "2.12.8"
+scalaVersion := Dependencies.Scala.v2
 
 lazy val common = Seq(
   organization := "design.hamu",
   version := "0.0.1",
-  scalacOptions += "-Ypartial-unification"
+  scalacOptions := {
+    scalaBinaryVersion.value match {
+      case v if v.startsWith("2.12") => Seq("-Ypartial-unification")
+      case v if v.startsWith("2.13") => Seq("-Xlint", "-Ywarn-unused")
+      case _ => Seq()
+    }
+  }
 )
 
 lazy val root = project
@@ -21,6 +27,11 @@ lazy val core = project
   .settings(publishSettings)
   .settings(
     name := "mongo-effect",
+    coverageMinimum := 90,
+    crossScalaVersions := Seq(
+      Dependencies.Scala.v2,
+      Dependencies.Scala.v3
+    ),
     libraryDependencies ++= Seq(
       Dependencies.Mongo.driver.jvm.value,
       Dependencies.Cats.core.jvm.value,
