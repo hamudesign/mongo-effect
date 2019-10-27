@@ -31,6 +31,9 @@ case object Home extends AppPage {
           <.div(^.className := "mb-5")(
             <.h4(^.className := "display-4")("Mongo Scala Driver & FS2"),
             <.div(
+              <.a(^.className := "mr-3", ^.href := "")(
+                <.img(^.src := "https://img.shields.io/badge/Scala-2.12%20%26%202.13-green")
+              ),
               <.a(^.className := "mr-3", ^.href := "https://index.scala-lang.org/hamuhouse/mongo-effect/mongo-effect")(
                 <.img(^.src := "https://img.shields.io/maven-central/v/design.hamu/mongo-effect_2.12"),
               ),
