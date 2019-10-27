@@ -3,7 +3,7 @@ scalaVersion := Dependencies.Scala.v2
 
 lazy val common = Seq(
   organization := "design.hamu",
-  version := "0.0.1",
+  version := "0.1.0",
   scalacOptions := {
     scalaBinaryVersion.value match {
       case v if v.startsWith("2.12") => Seq("-Ypartial-unification")
