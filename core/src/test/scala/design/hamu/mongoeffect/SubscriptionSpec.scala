@@ -11,8 +11,8 @@ class SubscriptionSpec extends AnyWordSpec with Matchers with AsyncMockFactory {
       val subscription = mock[Subscription]
       (subscription.request _) expects (1) returning ()
       (subscription.request _) expects (2) returning ()
-      (subscription.unsubscribe _) expects () returning ()
-      (subscription.isUnsubscribed _) expects () returning (true)
+      (subscription.unsubscribe _).expects()
+      (subscription.isUnsubscribed _).expects().returning(true)
       val fs2 = subscription.toFS2
       fs2.request(1)
       fs2.request(2)
